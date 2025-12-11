@@ -219,12 +219,70 @@ h2::after {
     padding: 30px;
     text-align: center;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .feature-card:hover {
     background: white;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     transform: translateY(-5px);
+}
+
+/* Стили для включенных услуг */
+.included-card {
+    border: 2px solid #e8f5e9;
+    background: #f1f8f4;
+}
+
+.included-card:hover {
+    border-color: #4caf50;
+    background: white;
+}
+
+.included-badge {
+    display: inline-block;
+    background: #4caf50;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+/* Стили для платных услуг */
+.additional {
+    margin-bottom: 60px;
+}
+
+.additional-note {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: -15px;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.additional-card {
+    border: 2px solid #fff3e0;
+    background: #fffbf5;
+}
+
+.additional-card:hover {
+    border-color: #ff9800;
+    background: white;
+}
+
+.additional-badge {
+    display: inline-block;
+    background: #ff9800;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 15px;
 }
 
 .feature-icon {
