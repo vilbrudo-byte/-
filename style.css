@@ -302,6 +302,76 @@ h2::after {
     line-height: 1.6;
 }
 
+/* Развлекательная программа */
+.entertainment {
+    margin-bottom: 60px;
+}
+
+.entertainment-note {
+    text-align: center;
+    color: #667eea;
+    font-size: 1.1rem;
+    margin-top: -15px;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.entertainment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.entertainment-card {
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+    border: 2px solid #e3e8ff;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.entertainment-card:hover {
+    background: white;
+    border-color: #667eea;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+    transform: translateY(-5px);
+}
+
+.entertainment-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.entertainment-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.entertainment-card p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.entertainment-footer {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    background: #fffbf5;
+    border-radius: 12px;
+    border-left: 4px solid #ff9800;
+}
+
+.entertainment-footer p {
+    color: #666;
+    font-size: 1.05rem;
+    margin: 0;
+    line-height: 1.6;
+}
+
 /* Информация */
 .info-grid {
     display: grid;
