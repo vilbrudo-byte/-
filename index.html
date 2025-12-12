@@ -21,85 +21,73 @@
     </div>
 
     <script>
-        // Создание конфетти
-        function createConfetti() {
+        function openGift() {
+            const button = document.querySelector('.gift-button');
             const canvas = document.getElementById('confetti-canvas');
             const ctx = canvas.getContext('2d');
+
+            // Устанавливаем размеры canvas
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            const confettiPieces = [];
-            const confettiCount = 150;
-            const colors = ['#667eea', '#764ba2', '#ff6b6b', '#ffd93d', '#6bcf7f', '#ff85a2'];
+            // Делаем canvas видимым
+            canvas.style.display = 'block';
 
-            class ConfettiPiece {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height - canvas.height;
-                    this.size = Math.random() * 8 + 5;
-                    this.speedY = Math.random() * 3 + 2;
-                    this.speedX = Math.random() * 2 - 1;
-                    this.color = colors[Math.floor(Math.random() * colors.length)];
-                    this.rotation = Math.random() * 360;
-                    this.rotationSpeed = Math.random() * 10 - 5;
-                }
+            // Анимация кнопки
+            button.style.transform = 'scale(0.95)';
+            button.disabled = true;
 
-                update() {
-                    this.y += this.speedY;
-                    this.x += this.speedX;
-                    this.rotation += this.rotationSpeed;
+            const confettiCount = 200;
+            const confetti = [];
+            const colors = ['#667eea', '#764ba2', '#ff6b6b', '#ffd93d', '#6bcf7f', '#ff85a2', '#a29bfe', '#fd79a8'];
 
-                    if (this.y > canvas.height) {
-                        this.y = -10;
-                        this.x = Math.random() * canvas.width;
-                    }
-                }
-
-                draw() {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.rotation * Math.PI / 180);
-                    ctx.fillStyle = this.color;
-                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
-                    ctx.restore();
-                }
-            }
-
+            // Создаём конфетти
             for (let i = 0; i < confettiCount; i++) {
-                confettiPieces.push(new ConfettiPiece());
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 10 + 5,
+                    speedY: Math.random() * 4 + 3,
+                    speedX: Math.random() * 4 - 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 20 - 10
+                });
             }
 
-            let animationId;
+            let frameCount = 0;
+            const maxFrames = 120; // 2 секунды при 60fps
+
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                confettiPieces.forEach(piece => {
-                    piece.update();
-                    piece.draw();
+
+                confetti.forEach(piece => {
+                    // Обновляем позицию
+                    piece.y += piece.speedY;
+                    piece.x += piece.speedX;
+                    piece.rotation += piece.rotationSpeed;
+
+                    // Рисуем конфетти
+                    ctx.save();
+                    ctx.translate(piece.x, piece.y);
+                    ctx.rotate(piece.rotation * Math.PI / 180);
+                    ctx.fillStyle = piece.color;
+                    ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                    ctx.restore();
                 });
-                animationId = requestAnimationFrame(animate);
+
+                frameCount++;
+
+                if (frameCount < maxFrames) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // Переход на страницу подарка
+                    window.location.href = 'gift.html';
+                }
             }
 
+            // Запускаем анимацию
             animate();
-
-            // Остановить анимацию через 4 секунды
-            setTimeout(() => {
-                cancelAnimationFrame(animationId);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }, 4000);
-        }
-
-        function openGift() {
-            // Запустить конфетти
-            createConfetti();
-
-            // Добавить звуковой эффект (хлопок)
-            const button = document.querySelector('.gift-button');
-            button.style.transform = 'scale(0.95)';
-
-            // Перейти на страницу подарка через 2 секунды
-            setTimeout(() => {
-                window.location.href = 'gift.html';
-            }, 2000);
         }
     </script>
 </body>
