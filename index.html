@@ -22,73 +22,93 @@
 
     <script>
         function openGift() {
-            const button = document.querySelector('.gift-button');
+            console.log('Кнопка нажата!'); // Отладка
+
             const canvas = document.getElementById('confetti-canvas');
+            if (!canvas) {
+                console.error('Canvas не найден!');
+                window.location.href = 'gift.html';
+                return;
+            }
+
             const ctx = canvas.getContext('2d');
+            const button = document.querySelector('.gift-button');
 
             // Устанавливаем размеры canvas
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
-            // Делаем canvas видимым
             canvas.style.display = 'block';
 
-            // Анимация кнопки
-            button.style.transform = 'scale(0.95)';
-            button.disabled = true;
+            console.log('Canvas размер:', canvas.width, canvas.height); // Отладка
 
-            const confettiCount = 200;
-            const confetti = [];
-            const colors = ['#667eea', '#764ba2', '#ff6b6b', '#ffd93d', '#6bcf7f', '#ff85a2', '#a29bfe', '#fd79a8'];
+            // Блокируем кнопку
+            if (button) {
+                button.disabled = true;
+                button.style.transform = 'scale(0.9)';
+            }
 
-            // Создаём конфетти
-            for (let i = 0; i < confettiCount; i++) {
-                confetti.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height - canvas.height,
-                    size: Math.random() * 10 + 5,
-                    speedY: Math.random() * 4 + 3,
-                    speedX: Math.random() * 4 - 2,
+            const particles = [];
+            const particleCount = 150;
+            const colors = ['#667eea', '#764ba2', '#ff6b6b', '#ffd93d', '#6bcf7f', '#ff85a2'];
+
+            // Создаём частицы
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 100,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10 - 5,
+                    size: Math.random() * 8 + 4,
                     color: colors[Math.floor(Math.random() * colors.length)],
+                    gravity: 0.3,
                     rotation: Math.random() * 360,
-                    rotationSpeed: Math.random() * 20 - 10
+                    rotationSpeed: (Math.random() - 0.5) * 10
                 });
             }
 
-            let frameCount = 0;
-            const maxFrames = 120; // 2 секунды при 60fps
+            console.log('Создано частиц:', particles.length); // Отладка
+
+            let startTime = Date.now();
+            const duration = 2000; // 2 секунды
 
             function animate() {
+                const elapsed = Date.now() - startTime;
+
+                // Очищаем canvas
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                confetti.forEach(piece => {
-                    // Обновляем позицию
-                    piece.y += piece.speedY;
-                    piece.x += piece.speedX;
-                    piece.rotation += piece.rotationSpeed;
+                // Обновляем и рисуем частицы
+                particles.forEach(p => {
+                    p.vy += p.gravity;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotationSpeed;
 
-                    // Рисуем конфетти
                     ctx.save();
-                    ctx.translate(piece.x, piece.y);
-                    ctx.rotate(piece.rotation * Math.PI / 180);
-                    ctx.fillStyle = piece.color;
-                    ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
                     ctx.restore();
                 });
 
-                frameCount++;
-
-                if (frameCount < maxFrames) {
+                if (elapsed < duration) {
                     requestAnimationFrame(animate);
                 } else {
-                    // Переход на страницу подарка
+                    console.log('Переход на страницу подарка'); // Отладка
                     window.location.href = 'gift.html';
                 }
             }
 
-            // Запускаем анимацию
             animate();
         }
+
+        // Проверяем загрузку страницы
+        window.addEventListener('load', function() {
+            console.log('Страница загружена');
+            const canvas = document.getElementById('confetti-canvas');
+            console.log('Canvas найден:', !!canvas);
+        });
     </script>
 </body>
 </html>
