@@ -17,11 +17,89 @@
             </button>
         </div>
         <div class="decoration"></div>
+        <canvas id="confetti-canvas"></canvas>
     </div>
 
     <script>
+        // Создание конфетти
+        function createConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confettiPieces = [];
+            const confettiCount = 150;
+            const colors = ['#667eea', '#764ba2', '#ff6b6b', '#ffd93d', '#6bcf7f', '#ff85a2'];
+
+            class ConfettiPiece {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height - canvas.height;
+                    this.size = Math.random() * 8 + 5;
+                    this.speedY = Math.random() * 3 + 2;
+                    this.speedX = Math.random() * 2 - 1;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.rotation = Math.random() * 360;
+                    this.rotationSpeed = Math.random() * 10 - 5;
+                }
+
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.rotation += this.rotationSpeed;
+
+                    if (this.y > canvas.height) {
+                        this.y = -10;
+                        this.x = Math.random() * canvas.width;
+                    }
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation * Math.PI / 180);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < confettiCount; i++) {
+                confettiPieces.push(new ConfettiPiece());
+            }
+
+            let animationId;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiPieces.forEach(piece => {
+                    piece.update();
+                    piece.draw();
+                });
+                animationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // Остановить анимацию через 4 секунды
+            setTimeout(() => {
+                cancelAnimationFrame(animationId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 4000);
+        }
+
         function openGift() {
-            window.location.href = 'gift.html';
+            // Запустить конфетти
+            createConfetti();
+
+            // Добавить звуковой эффект (хлопок)
+            const button = document.querySelector('.gift-button');
+            button.style.transform = 'scale(0.95)';
+
+            // Перейти на страницу подарка через 2 секунды
+            setTimeout(() => {
+                window.location.href = 'gift.html';
+            }, 2000);
         }
     </script>
 </body>
