@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Подарок для Папы</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
     <div class="container welcome-page">
@@ -105,9 +108,15 @@
 
         // Проверяем загрузку страницы
         window.addEventListener('load', function() {
-            console.log('Страница загружена');
+            console.log('Страница загружена - версия с конфетти v2');
             const canvas = document.getElementById('confetti-canvas');
             console.log('Canvas найден:', !!canvas);
+            if (canvas) {
+                console.log('Canvas элемент:', canvas);
+                console.log('Canvas размеры до инициализации:', canvas.width, canvas.height);
+            } else {
+                console.error('ОШИБКА: Canvas не найден в DOM!');
+            }
         });
     </script>
 </body>
